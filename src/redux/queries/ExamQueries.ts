@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import { IExam } from '../../types';
+import { AllCorrectAnswers, IExam } from '../../types';
 
 export const examApi = createApi({
     baseQuery: fetchBaseQuery({
@@ -10,8 +10,11 @@ export const examApi = createApi({
         fetchExam: builder.query<IExam, {examName: string}>({ 
             query: ({examName}): string => `exams/name/${examName}`,
             providesTags: ["Exam"]
+        }),
+        fetchAnswersByExamId: builder.query<AllCorrectAnswers[], {examId: number}>({
+            query: ({examId}) => `answers/exam/${examId}`
         })
     })
 })
 
-export const {useFetchExamQuery} = examApi
+export const {useFetchExamQuery, useFetchAnswersByExamIdQuery} = examApi
