@@ -1,8 +1,7 @@
 import { Dispatch } from "./store";
-import { actions, examsListActions } from "./examSlice";
+import { actions } from "./examSlice";
 import axios, { AxiosError } from "axios";
-import { IExam, INewExamData, IQuestions } from "../types";
-import { PayloadAction } from "@reduxjs/toolkit";
+import { IExam, INewExamData } from "../types";
 
 const URL: string = process.env.REACT_APP_REALTIME_DATABASE!
 
@@ -18,35 +17,56 @@ const URL: string = process.env.REACT_APP_REALTIME_DATABASE!
 //         return response;
 //     }
 // }
+// export const addAnswerToTheExam = (examId: number, answer: string) => {
+//     return async (dispatch: Dispatch) => {
+//         dispatch(actions.loading())
 
-export const fetchExam = (examName: string) => {
-    return async (dispatch: Dispatch) => {
-        dispatch(actions.loading())
+        
 
-        const response: PayloadAction<{ exam: IExam }, "exam/startExam"> | PayloadAction<{ error: AxiosError }, "exam/catchException"> =
-            await axios.get(`http://localhost:3002/exams/name/${examName}`)
-                .then((response) => dispatch(actions.startExam({ exam: response.data })))
-                .catch((error: AxiosError) => dispatch(actions.catchException({ error })));
+//     }
+// }
 
-        console.log(response);
-        return response;
-    }
-}
-export const fetchAllExams = (exams: Array<string>) => {
-    return async (dispatch: Dispatch) => {
-        dispatch(actions.loading())
-        const arr: IQuestions[] = []
-        for (let i = 0; i < exams.length; i++) {
-            await axios.get(`${URL}${exams[i]}.json`)
-                .then((response) => arr.push(response.data))
-                .catch((error: AxiosError) => dispatch(actions.catchException({ error })))
-        }
+// export const fetchExam = (examName: string) => {
+//     return async (dispatch: Dispatch) => {
+//         dispatch(actions.loading())
 
-        dispatch(actions.manageExams({ existingExams: arr }))
+//         const response: PayloadAction<{ exam: IExam }, "exam/startExam"> | PayloadAction<{ error: AxiosError }, "exam/catchException"> =
+//             await axios.get(`http://localhost:3002/exams/name/${examName}`)
+//                 .then((response) => dispatch(actions.startExam({ exam: response.data })))
+//                 .catch((error: AxiosError) => dispatch(actions.catchException({ error })));
 
-        return arr;
-    }
-}
+//         console.log(response);
+//         return response;
+//     }
+// }
+
+// export const fetchAnswersByExamId = (examId: number) => {
+//     return async (dispatch: Dispatch) => {
+//         dispatch(actions.loading())
+
+//         const response =
+//             await axios.get<AllCorrectAnswers[]>(`http://localhost:3002/answers/exam/${examId}`)
+//                 .then((response) => dispatch(actions.summary({result: response.data})))
+//                 .catch((error: AxiosError) => dispatch(actions.catchException({ error })));
+
+//         return response;
+//     }
+// }
+// export const fetchAllExams = (exams: Array<string>) => {
+//     return async (dispatch: Dispatch) => {
+//         dispatch(actions.loading())
+//         const arr: IQuestions[] = []
+//         for (let i = 0; i < exams.length; i++) {
+//             await axios.get(`${URL}${exams[i]}.json`)
+//                 .then((response) => arr.push(response.data))
+//                 .catch((error: AxiosError) => dispatch(actions.catchException({ error })))
+//         }
+
+//         dispatch(actions.manageExams({ existingExams: arr }))
+
+//         return arr;
+//     }
+// }
 
 export const fetchExamKeywords = () => {
     return async (dispatch: Dispatch) => {
@@ -62,14 +82,6 @@ export const fetchExamKeywords = () => {
                 .catch((error: AxiosError) => dispatch(actions.catchException({ error })))
 
         return response;
-    }
-}
-
-export const fetchExamKeywords2 = () => {
-    return async (dispatch: Dispatch) => {
-        await axios.get(`${URL}ALL.json`)
-            .then((response) => dispatch(examsListActions.setExamsList(response.data)))
-            .catch((error: AxiosError) => dispatch(actions.catchException({ error })))
     }
 }
 

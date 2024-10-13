@@ -5,8 +5,9 @@ import {Dispatch, RootState} from "../../redux/store";
 import {useDispatch, useSelector} from "react-redux";
 import {actions} from "../../redux/examSlice";
 import {FormEvent, useEffect, useState} from "react";
-import {Gender, IExam, IResult} from "../../types";
-import {fetchExamKeywords} from "../../redux/thunks";
+import {AllCorrectAnswers, Gender, IExam, IResult} from "../../types";
+import { fetchExamKeywords} from "../../redux/thunks";
+import { useFetchAnswersByExamIdQuery } from "../../redux/queries/ExamQueries";
 
 interface Props {
     exam: IExam
@@ -19,44 +20,46 @@ export const Form = ({exam}: Props) => {
     const [emailAddress, setEmailAddress] = useState<string | undefined>(undefined);
     const [gender, setGender] = useState<Gender>('Male');
     const [correctAnswersArr, setCorrectAnswersArr] = useState<IResult[]>([]);
+    const result = useSelector((state: RootState) => {
+        if(state.exam.type === "SUMMARY") return state.exam.result
+        else return [];
+    })
+    const {data: examData, isLoading} = useFetchAnswersByExamIdQuery({examId: exam?.examId})
 
     const leaveHandler = () => {
         dispatch(fetchExamKeywords());
     }
 
     const onFinish = (event: FormEvent) => {
-        event.preventDefault();
+        // event.preventDefault();
 
-        if(!name || !emailAddress) return
+        // if(!name || !emailAddress) return
 
-        dispatch(actions.summary({
-            personalInfo: {
-                firstName: name,
-                emailAddress: emailAddress,
-                gender: gender
-            },
-            result: correctAnswersArr,
-        }))
+        dispatch(actions.setSummaryState(result))
     }
 
     useEffect(() => {
-        if(state.type === "FINISH_EXAM") {
-            const correctAnswers = exam.questions.map((item) => {
-                return {id: item.questionId, correctAnswer: item.answers[0]}
-            })
-            //to correct
-
-            const checkedAnswers = state?.result.map((item, index) => {
-                if(correctAnswers[index]?.correctAnswer === item.answer) {
-                    return {...item, isCorrect: true}
-                }
-                return {...item, isCorrect: false}
-            })
-
-            setCorrectAnswersArr(checkedAnswers);
-        }
-        // eslint-disable-next-line
+        dispatch(actions.summary({result: examData as AllCorrectAnswers[]}))
     }, [])
+
+    // useEffect(() => {
+    //     if(state.type === "FINISH_EXAM") {
+    //         const correctAnswers = exam.questions.map((item) => {
+    //             return {id: item.questionId, correctAnswer: item.answers[0]}
+    //         })
+    //         //to correct
+
+    //         const checkedAnswers = state?.result.map((item, index) => {
+    //             if(correctAnswers[index]?.correctAnswer === item.answer) {
+    //                 return {...item, isCorrect: true}
+    //             }
+    //             return {...item, isCorrect: false}
+    //         })
+
+    //         setCorrectAnswersArr(checkedAnswers);
+    //     }
+    //     // eslint-disable-next-line
+    // }, [])
 
     return (
         <div className={classes.wrapper}>

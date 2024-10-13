@@ -2,7 +2,6 @@ import classes from "./DataTable.module.scss"
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch, RootState} from "../../redux/store";
 import {useEffect} from "react";
-import {fetchAllExams, fetchExamKeywords2} from "../../redux/thunks";
 import {ExamState} from "../../types";
 import {Loader} from "../atoms/loader/loader";
 import filledStarIcon from "../atoms/icons/filledStar.svg";
@@ -17,16 +16,16 @@ export const DataTable = () => {
     const state: ExamState = useSelector((state: RootState) => state.exam);
     const examsListState = useSelector((state: RootState) => state.examsList)
 
-    useEffect(() => {
-        // if(state.type === "CHOOSE_EXAM") return
-        if (examsListState.length !== 0) return
+    // useEffect(() => {
+    //     // if(state.type === "CHOOSE_EXAM") return
+    //     if (examsListState.length !== 0) return
 
-        dispatch(fetchExamKeywords2())
-    }, [examsListState, dispatch])
+    //     dispatch(fetchExamKeywords2())
+    // }, [examsListState, dispatch])
 
-    useEffect(() => {
-        dispatch(fetchAllExams(examsListState))
-    }, [examsListState, dispatch])
+    // useEffect(() => {
+    //     dispatch(fetchAllExams(examsListState))
+    // }, [examsListState, dispatch])
 
     return (
         <div className={classes.wrapper}>

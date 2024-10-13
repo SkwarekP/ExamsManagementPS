@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {ExamState, IAnswer, IPersonalInfo, IResult, IQuestions, IExam} from "../types";
+import {ExamState, IAnswer, IQuestions, IExam, AllCorrectAnswers} from "../types";
 import {AxiosError} from "axios";
 
 export const examsListSlice = createSlice({
@@ -34,17 +34,22 @@ export const examSlice = createSlice({
                 }
             }
         },
+        setSummaryState: (state, action: {payload: AllCorrectAnswers[]}) => {
+            if(state.type === "FINISH_EXAM") {
+                return {type: "SUMMARY", result: action.payload, exam: state.exam}
+            }
+        },
         summary: (state, action: {
             payload: {
-                personalInfo: IPersonalInfo,
-                result: IResult[],
+                // personalInfo?: IPersonalInfo,
+                result: AllCorrectAnswers[],
             }
         }) => {
             if(state.type === "FINISH_EXAM"){
                 return {
                     type: "SUMMARY",
                     result: action.payload.result,
-                    personalInfo: action.payload.personalInfo,
+                    // personalInfo: action.payload.personalInfo,
                     exam: state.exam
                 }
             }

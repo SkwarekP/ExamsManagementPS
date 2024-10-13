@@ -1,6 +1,6 @@
 import classes from "./QuestionButton.module.scss";
 import {actions} from "../../redux/examSlice";
-import {IQuestionsItem, QuestionsCorrect} from "../../types";
+import {QuestionsCorrect} from "../../types";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch, RootState} from "../../redux/store";
 

@@ -80,6 +80,11 @@ export interface IAnswer {
     answer: string | undefined
 }
 
+export interface AllCorrectAnswers {
+    answerId: number,
+    correctAnswer: string
+}
+
 export interface IResult extends IAnswer {
     isCorrect: boolean
 }
@@ -127,7 +132,7 @@ export type ExamState =
     }
     | {
         type: "SUMMARY"
-        personalInfo: IPersonalInfo
-        result: IResult[]
+        // personalInfo: IPersonalInfo
+        result: AllCorrectAnswers[]
         exam: IExam
     }
