@@ -1,13 +1,13 @@
 .step {
   padding: 1rem 0;
   display: flex;
-  gap: .5rem;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
 
   .filledCircle {
-    background: #FFFFFF !important;
+    background: #ffffff !important;
 
     span {
       color: black !important;
@@ -43,7 +43,7 @@
   }
 
   .circle:hover {
-    opacity: 0.5
+    opacity: 0.5;
   }
 
   .line {
@@ -59,25 +59,23 @@
   .hideLine {
     display: none;
   }
-
 }
 
 @media (max-width: 968px) {
+  .step {
+    padding: 0.5rem 0;
+    display: flex;
+    gap: 0.25rem;
 
-    .step {
-      padding:.5rem 0;
-      display: flex;
-      gap: .25rem;
+    .circle {
+      width: 28px;
+      height: 28px;
 
-      .circle {
-        width: 28px;
-        height: 28px;
-
-        span {
-          font-size: 14px;
-          font-weight: 700;
-          color: white;
-        }
+      span {
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
       }
     }
+  }
 }

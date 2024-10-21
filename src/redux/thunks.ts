@@ -1,9 +1,9 @@
-import { Dispatch } from "./store";
-import { actions } from "./examSlice";
-import axios, { AxiosError } from "axios";
-import { IExam, INewExamData } from "../types";
+import { Dispatch } from './store';
+import { actions } from './slices/examSlice';
+import axios, { AxiosError } from 'axios';
+import { IExam, INewExamData } from '../types';
 
-const URL: string = process.env.REACT_APP_REALTIME_DATABASE!
+const URL: string = process.env.REACT_APP_REALTIME_DATABASE!;
 
 // export const fetchExam = (examType: ExamType | string) => {
 //     return async (dispatch: Dispatch) => {
@@ -20,8 +20,6 @@ const URL: string = process.env.REACT_APP_REALTIME_DATABASE!
 // export const addAnswerToTheExam = (examId: number, answer: string) => {
 //     return async (dispatch: Dispatch) => {
 //         dispatch(actions.loading())
-
-        
 
 //     }
 // }
@@ -69,41 +67,46 @@ const URL: string = process.env.REACT_APP_REALTIME_DATABASE!
 // }
 
 export const fetchExamKeywords = () => {
-    return async (dispatch: Dispatch) => {
-        dispatch(actions.loading())
+  return async (dispatch: Dispatch) => {
+    dispatch(actions.loading());
 
-        const response =
-            await axios.get<IExam[]>(`http://localhost:3002/exams`)
-                .then((res) => {
-                    const keywords = res?.data?.map((exam) => exam.name)
-                    dispatch(actions.chooseExam({keywords}))
-                    return res?.data
-                })
-                .catch((error: AxiosError) => dispatch(actions.catchException({ error })))
+    const response = await axios
+      .get<IExam[]>(`http://localhost:3002/exams`)
+      .then((res) => {
+        const keywords = res?.data?.map((exam) => exam.name);
+        dispatch(actions.chooseExam({ keywords }));
+        return res?.data;
+      })
+      .catch((error: AxiosError) =>
+        dispatch(actions.catchException({ error }))
+      );
 
-        return response;
-    }
-}
+    return response;
+  };
+};
 
 export const addNewExamToDB = async (data: INewExamData) => {
-    const convertedOptions = data.questions.map((item) => item.options)
-        .map((option) => option.map((opt) => opt.answer))
-    //TO CHANGE
-    const convertedData = data.questions.map((item, index) => {
-        return { ...item, options: convertedOptions[index] }
-    })
+  const convertedOptions = data.questions
+    .map((item) => item.options)
+    .map((option) => option.map((opt) => opt.answer));
+  //TO CHANGE
+  const convertedData = data.questions.map((item, index) => {
+    return { ...item, options: convertedOptions[index] };
+  });
 
-    const convertedData_ = { ...data, questions: convertedData }
+  const convertedData_ = { ...data, questions: convertedData };
 
-    return await axios.put<INewExamData>(`${URL}${data.examType}.json`, convertedData_)
-}
+  return await axios.put<INewExamData>(
+    `${URL}${data.examType}.json`,
+    convertedData_
+  );
+};
 
 export const addNewExamToKeywords = async (keyword: string) => {
-    const response = await axios.get(`${URL}ALL.json`);
-    const existingArray = response.data || [];
+  const response = await axios.get(`${URL}ALL.json`);
+  const existingArray = response.data || [];
 
-    existingArray.push(keyword)
+  existingArray.push(keyword);
 
-    await axios.put(`${URL}ALL.json`, existingArray)
-}
-
+  await axios.put(`${URL}ALL.json`, existingArray);
+};

@@ -8,19 +8,18 @@
 
     div {
       h3 {
-          font-size:14px;
+        font-size: 14px;
       }
     }
     div:last-child {
       button {
-        font-size:14px;
+        font-size: 14px;
       }
     }
 
     .leave__btn {
-
       button {
-        all:unset;
+        all: unset;
         cursor: pointer;
 
         img {
@@ -29,13 +28,13 @@
       }
 
       button:hover {
-        opacity: .5;
+        opacity: 0.5;
       }
     }
   }
 
   .button__list {
-    margin:2rem 0 2rem -.5rem;
+    margin: 2rem 0 2rem -0.5rem;
     display: flex;
     justify-content: space-between;
   }
@@ -51,27 +50,25 @@
     .header {
       div {
         h3 {
-          font-size:18px;
-          margin:0;
+          font-size: 18px;
+          margin: 0;
         }
       }
       div:last-child {
         button {
-          font-size:18px;
+          font-size: 18px;
         }
       }
 
       .leave__btn {
-
         button {
-          all:unset;
+          all: unset;
           cursor: pointer;
 
           img {
             max-width: 26px;
           }
         }
-
       }
     }
   }

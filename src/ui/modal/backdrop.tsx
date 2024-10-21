@@ -1,8 +1,8 @@
-import classes from "./backdrop.module.scss"
+import classes from './backdrop.module.scss';
 
 interface IBackdrop {
-    onClose : () => void
+  onClose: () => void;
 }
-export const Backdrop = ({onClose} : IBackdrop) => {
-    return <div className={classes.backdrop} onClick={() => onClose()}></div>
-}
+export const Backdrop = ({ onClose }: IBackdrop) => {
+  return <div className={classes.backdrop} onClick={() => onClose()}></div>;
+};
