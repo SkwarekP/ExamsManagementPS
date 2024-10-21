@@ -5,7 +5,7 @@
   .step {
     padding: 1rem 0;
     display: flex;
-    gap: .5rem;
+    gap: 0.5rem;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -23,49 +23,46 @@
     div:last-child > div {
       display: none;
     }
-
-    }
-
-    .circle {
-      width: 35px;
-      height:35px;
-      border-radius: 50%;
-      position: relative;
-      background: #FFFFFF;
-      cursor: pointer;
-      border: none;
-
-      img {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-40%, -50%);
-        width: 22px;
-      }
-    }
-
-    .circle:hover {
-      opacity: 0.5
-    }
-
   }
 
+  .circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: relative;
+    background: #ffffff;
+    cursor: pointer;
+    border: none;
+
+    img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-40%, -50%);
+      width: 22px;
+    }
+  }
+
+  .circle:hover {
+    opacity: 0.5;
+  }
+}
 
 @media (max-width: 968px) {
   .wrapper {
-    padding: .5rem 5px;
+    padding: 0.5rem 5px;
 
     .step {
-      padding:.5rem 0;
+      padding: 0.5rem 0;
       display: flex;
-      gap: .25rem;
+      gap: 0.25rem;
 
       .circle {
         width: 28px;
         height: 28px;
 
         img {
-          width:18px;
+          width: 18px;
         }
 
         span {

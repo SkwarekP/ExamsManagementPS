@@ -1,10 +1,9 @@
-
 .wrapper {
-  padding: .5rem;
-  margin: 1rem .25rem;
+  padding: 0.5rem;
+  margin: 1rem 0.25rem;
   display: flex;
   gap: 2rem;
-  max-width:100%;
+  max-width: 100%;
   overflow: auto;
   //border: 1px solid #001000;
 
@@ -16,10 +15,10 @@
     //border: 2px solid green;
 
     .header {
-      padding: .1rem .25rem;
+      padding: 0.1rem 0.25rem;
       background: lightgray;
       font-size: 10px;
-      min-width:100px;
+      min-width: 100px;
       //border:2px solid yellow;
 
       h3 {
@@ -33,24 +32,20 @@
 
       span {
         font-size: 10px;
-        border:none;
+        border: none;
 
         .starsWrapper {
-
           img {
             width: 12px;
           }
         }
       }
-
     }
-
   }
 }
 
 @media (min-width: 968px) {
   .wrapper {
-
     .row {
       justify-content: center;
 
@@ -59,7 +54,6 @@
       }
 
       .value {
-
         span {
           font-size: 14px;
 
@@ -67,11 +61,10 @@
             //margin-top:.3rem;
 
             img {
-              width:17.5px;
+              width: 17.5px;
             }
           }
         }
-
       }
     }
   }

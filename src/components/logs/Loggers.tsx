@@ -1,4 +1,3 @@
 export const Loggers = () => {
-
-    return <>sssssssadasda</>
-}
+  return <>sssssssadasda</>;
+};
