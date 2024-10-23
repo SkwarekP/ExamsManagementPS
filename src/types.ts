@@ -134,6 +134,11 @@ export type ExecutionStatus = 'IN_PROGRESS' | 'COMPLETED' | 'DECLINED';
 
 export type Role = "Admin" | "Participant"
 
+export enum Execution_Status {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  DECLINED = 'DECLINED',
+}
 export type ExamState =
   | {
       type: 'CHOOSE_EXAM';
@@ -170,17 +175,17 @@ export type ExamState =
     };
 
 export interface Execution {
-  executionId: string;
-  userId?: number;
-  examId?: number;
+  executionId?: string;
+  userId: number;
+  examId: number;
   currentQuestion?: string;
-  startTime: string;
-  endTime?: string;
+  startTime?: string; // should be created at the backend
+  endTime?: string; // should be created at the backend
   duration?: string;
-  score?: number;
+  score?: number | null;
   maxScore: number;
-  passed: boolean;
+  passed: boolean | null;
   status: ExecutionStatus;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string; //should be created at the backend
+  updatedAt?: string; // should be created at the backend
 }

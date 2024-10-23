@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ExamType } from '../../types';
+import { ExamType } from '../types';
 
 export const useNote = (
   examType: ExamType,
