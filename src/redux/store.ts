@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { examSlice, examsListSlice } from './slices/examSlice';
 import { examApi } from './queries/ExamQueries';
-import { usersApi } from './queries/UserQueries';
 import { usersSlice } from './slices/userSlice';
 
 export const getStore = () =>
@@ -11,10 +10,9 @@ export const getStore = () =>
       examsList: examsListSlice.reducer,
       usersSlice: usersSlice.reducer,
       [examApi.reducerPath]: examApi.reducer,
-      [usersApi.reducerPath]: usersApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(examApi.middleware, usersApi.middleware),
+      getDefaultMiddleware().concat(examApi.middleware,),
   });
 
 export type AppStore = ReturnType<typeof getStore>;

@@ -10,34 +10,56 @@ import { Summary } from './components/summary/summary';
 import { fetchExamKeywords } from './redux/thunks';
 import { Error } from './ui/error/error';
 import { useEffect } from 'react';
-import { useCreateExecutionMutation, useFetchExamQuery } from './redux/queries/ExamQueries';
-import {useFetchUsersQuery} from "./redux/queries/UserQueries";
+import { useCreateExecutionMutation, useFetchExamQuery, useFetchUserQuery } from './redux/queries/ExamQueries';
 import { actions } from './redux/slices/examSlice';
-import { IExam } from './types';
+import { Execution, Execution_Status, IExam } from './types';
+import { useSnackbar } from './hooks/useSnackbar';
+import { SNACKBAR_CONSTANTS } from './constants/snackbar-messages';
 
 export const ExamReduxProcess = () => {
   const state = useSelector((state: RootState) => state.exam);
   const examType = useSelector((state: RootState) => state?.exam?.type);
   const dispatch: Dispatch = useDispatch();
+  const snackbar = useSnackbar();
   const {
-    data: ChoosenExamData,
-    isLoading,
-    isSuccess,
+    data: examData,
+    isLoading: isExamDataLoading,
+    isError: isExamDataError,
   } = useFetchExamQuery({ examName: 'React' });
-  // const exams = dispatch(fetchExamKeywords())
+  const {data:user, isLoading:isUserLoading, isError: isFetchingUserError} = useFetchUserQuery({userId: 1});
+  const [createExecution, { isLoading: isCreatingExecution, isError:isCreateExecutionFailed }] = useCreateExecutionMutation()
 
-  const users = useFetchUsersQuery();
-  const createExecution = useCreateExecutionMutation()
-
-  // console.log(exams);
   useEffect(() => {
     dispatch(fetchExamKeywords());
   }, [dispatch]);
 
   const startExam = (exam: string) => {
     //@TODO CREATE EXECUTION HERE
+    const executionObject: Execution = {
+      userId: user?.userId as number,
+      examId: 1,
+      currentQuestion: '',
+      startTime: '',
+      endTime: '',
+      duration: '15:00',
+      score: null,
+      maxScore: 30,
+      passed: null,
+      status: Execution_Status.IN_PROGRESS,
+    } 
+    createExecution(executionObject)
+      .unwrap()
+      .then(() => snackbar.show({
+        severity: "success",
+        message: SNACKBAR_CONSTANTS.CREATE_EXECUTION_SUCCESS
+      }))
+      .catch(() => snackbar.show({
+          severity: "error",
+          message: SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED
+        })
+      )
 
-    dispatch(actions.startExam({ exam: ChoosenExamData as IExam }));
+    dispatch(actions.startExam({ exam: examData as IExam }));
   };
 
   switch (state.type) {

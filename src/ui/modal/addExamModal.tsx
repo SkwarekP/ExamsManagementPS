@@ -6,7 +6,7 @@ import crossIcon from '../atoms/icons/cross.png';
 import undoArrowIcon from '../atoms/icons/undo-arrow.png';
 import React, { useEffect, useState } from 'react';
 import { Button } from '../atoms/buttons/button';
-import { Tooltip } from '../atoms/tooltip/tooltip';
+import { Snackbar } from '../snackbar/snackbar';
 import { addNewExamToDB, addNewExamToKeywords } from '../../redux/thunks';
 import { INewExamData } from '../../types';
 import { Dispatch } from '../../redux/store';
@@ -548,10 +548,10 @@ export const AddExamModal = ({ onConfirm, onClose }: IModal) => {
         </div>
       </div>
       {!isValidationOk.isValid && (
-        <Tooltip isWarning message={isValidationOk.message} />
+        <Snackbar  message={isValidationOk.message} severity='warning'/>
       )}
       {(isSuccess.isAdded || isSuccess.isUpdated) && (
-        <Tooltip message={isSuccess.message} isSuccess />
+        <Snackbar message={isSuccess.message} severity='success'/>
       )}
     </>
   );

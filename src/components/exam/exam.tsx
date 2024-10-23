@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '../../redux/store';
 import { actions } from '../../redux/slices/examSlice';
 import { useCallback, useEffect, useState } from 'react';
-import { Tooltip } from '../../ui/atoms/tooltip/tooltip';
+import { Snackbar } from '../../ui/snackbar/snackbar';
 import { QuestionList } from './questionList';
 import { ExamTracking } from '../examtracking/examTracking';
 import { fetchExamKeywords } from '../../redux/thunks';
@@ -164,9 +164,9 @@ export const Exam = ({ exam }: Props) => {
                 <Backdrop onClose={closeModal} />,
                 document.getElementById('backdrop')!
               )}
-            {!isValid && <Tooltip isWarning message={tooltipMessage} />}
+            {!isValid && <Snackbar message={tooltipMessage} severity='warning'/>}
             {(isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) && (
-              <Tooltip message={tooltipMessage} isSuccess />
+              <Snackbar message={tooltipMessage} severity='success'/>
             )}
           </div>
         </>

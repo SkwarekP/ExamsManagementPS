@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '../../redux/store';
 import checkedIcon from '../../ui/atoms/icons/icons8-check-32.png';
 import exitIcon from '../../ui/atoms/icons/icons8-exit-30.png';
-import { useNote } from '../hooks/useNote';
+import { useNote } from '../../hooks/useNote';
 import { ExamType, IExam } from '../../types';
 import { fetchExamKeywords } from '../../redux/thunks';
 import { useEffect } from 'react';
