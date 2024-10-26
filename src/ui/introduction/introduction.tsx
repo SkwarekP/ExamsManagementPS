@@ -1,15 +1,15 @@
-import React from 'react';
 import classes from './introduction.module.scss';
 
 export const Introduction = () => {
   return (
-    <div>
-      <h2>Welcome!</h2>
+    <div className={classes.introContainer}>
+      <h1>🎉 Welcome to Your Quiz Adventure! 🎉</h1>
       <p className={classes.introduction}>
-        Choose your exam. Each one of them contains 15 questions with one
-        correct answer. It's possible to back to previous questions. Ensure you
-        always click "next" button to confirm your answer before moving to the
-        next or previous question.
+        Get ready to test your knowledge! Each quiz contains 5, 15 or 30 questions
+        with one correct answer each. Don’t worry, you can always go back to review previous questions.
+      </p>
+      <p className={classes.tips}>
+        Tip: Remember to hit "Next" to confirm your answer before moving to another question. Good luck!
       </p>
     </div>
   );

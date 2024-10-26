@@ -1,7 +1,7 @@
 .button {
-  margin: 1rem;
+  margin: 6rem;
   font-size: 14px;
-  padding: 0.5rem 1rem;
+  padding: .35rem .75rem;
   background: #001000;
   border-radius: 5px;
   outline: none;
@@ -16,8 +16,9 @@
 
 @media (min-width: 968px) {
   .button {
-    margin: 0 0.5rem;
-    font-size: 22px;
+    margin: 0 .5rem;
+    font-size: 16px;
+    font-weight: 400;
   }
 
   .button:hover {

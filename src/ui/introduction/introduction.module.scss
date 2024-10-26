@@ -17,15 +17,27 @@ div {
 }
 
 @media (min-width: 768px) {
-  div {
+  .introContainer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
     .introduction {
-      margin: 0 auto;
-      font-size: 2rem;
-      line-height: 35px;
-      max-width: 70%;
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 1em;
+      color: #333;
     }
-    h2 {
-      font-size: 3rem;
+    
+    .tips {
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+      margin-top: 10px;
     }
+    
   }
+  
 }

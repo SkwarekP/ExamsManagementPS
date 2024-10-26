@@ -29,8 +29,8 @@ export const ExamReduxProcess = () => {
   } = useFetchAllExamsQuery();
 
 
-  const {data:user, isLoading:isUserLoading, isError: isFetchingUserError} = useFetchUserQuery({userId: 1});
-  const [createExecution, { isLoading: isCreatingExecution, isError:isCreateExecutionFailed }] = useCreateExecutionMutation()
+  const { data: user, isLoading: isUserLoading, isError: isFetchingUserError } = useFetchUserQuery({ userId: 1 });
+  const [createExecution, { isLoading: isCreatingExecution, isError: isCreateExecutionFailed }] = useCreateExecutionMutation()
 
   const startExam = (exam: IExam) => {
     //@TODO CREATE EXECUTION HERE
@@ -44,7 +44,7 @@ export const ExamReduxProcess = () => {
       maxScore: 30,
       passed: null,
       status: Execution_Status.IN_PROGRESS,
-    } 
+    }
     createExecution(executionObject)
       .unwrap()
       .then(() => snackbar.show({
@@ -52,14 +52,16 @@ export const ExamReduxProcess = () => {
         message: SNACKBAR_CONSTANTS.CREATE_EXECUTION_SUCCESS
       }))
       .catch(() => snackbar.show({
-          severity: "error",
-          message: SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED
-        })
+        severity: "error",
+        message: SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED
+      })
       )
 
     dispatch(actions.startExam({ exam }));
   };
-  console.log(exams);
+
+  if (isExamsLoading || isUserLoading || isCreatingExecution) return <Loader />
+
   switch (state.type) {
     case 'QUESTION':
       switch (examType) {
@@ -90,14 +92,16 @@ export const ExamReduxProcess = () => {
       return (
         <>
           <Introduction />
-          <div className={classes.wrapper}>
-            {exams?.map((exam: IExam) => {
-              return (
-                <Button key={exam.examId} onClick={() => startExam(exam)}>
-                  {exam.name}
-                </Button>
-              );
-            })}
+          <div className={classes.examList}>
+            {(isExamsLoading || isUserLoading) && <Loader />}
+            {exams?.map((exam) => (
+              <div key={exam.examId} className={classes.examCard}>
+                <h3>{exam.name}</h3>
+                <p className={classes.examDescription}>some description of this exam</p>
+                <p className={classes.examQuestions}>{exam.questions.length} questions</p>
+                <Button onClick={() => startExam(exam)}>Start</Button>
+              </div>
+            ))}
           </div>
         </>
       );
