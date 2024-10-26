@@ -42,6 +42,7 @@ export const examApi = createApi({
 });
 
 export const {
+  useFetchAllExamsQuery,
   useFetchExamQuery,
   useFetchAnswersByExamIdQuery,
   useCreateExecutionMutation,

@@ -39,7 +39,7 @@ export const Exam = ({ exam }: Props) => {
   const handleModal = () => dispatch(fetchExamKeywords());
   const closeModal = () => setIsModalShown(false);
 
-  console.log(state);
+  console.log(exam);
 
   const handleNextQuestion = () => {
     if (isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) return;
@@ -101,7 +101,6 @@ export const Exam = ({ exam }: Props) => {
     }
   };
 
-  console.log(exam);
   useEffect(() => {
     const showErrorTooltipCooldown = setTimeout(() => {
       setIsValid(true);
@@ -138,7 +137,7 @@ export const Exam = ({ exam }: Props) => {
               <div>
                 <h3>
                   Question {state.type === 'QUESTION' && state.counter}/
-                  {exam?.questionsAmount}
+                  {exam?.questions?.length}
                 </h3>
               </div>
               <div className={classes.leave__btn}>

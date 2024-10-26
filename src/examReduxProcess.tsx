@@ -10,7 +10,7 @@ import { Summary } from './components/summary/summary';
 import { fetchExamKeywords } from './redux/thunks';
 import { Error } from './ui/error/error';
 import { useEffect } from 'react';
-import { useCreateExecutionMutation, useFetchExamQuery, useFetchUserQuery } from './redux/queries/ExamQueries';
+import { useCreateExecutionMutation, useFetchAllExamsQuery, useFetchExamQuery, useFetchUserQuery } from './redux/queries/ExamQueries';
 import { actions } from './redux/slices/examSlice';
 import { Execution, Execution_Status, IExam } from './types';
 import { useSnackbar } from './hooks/useSnackbar';
@@ -21,26 +21,24 @@ export const ExamReduxProcess = () => {
   const examType = useSelector((state: RootState) => state?.exam?.type);
   const dispatch: Dispatch = useDispatch();
   const snackbar = useSnackbar();
+
   const {
-    data: examData,
-    isLoading: isExamDataLoading,
-    isError: isExamDataError,
-  } = useFetchExamQuery({ examName: 'React' });
+    data: exams,
+    isLoading: isExamsLoading,
+    isError: isExamsFetchError,
+  } = useFetchAllExamsQuery();
+
+
   const {data:user, isLoading:isUserLoading, isError: isFetchingUserError} = useFetchUserQuery({userId: 1});
   const [createExecution, { isLoading: isCreatingExecution, isError:isCreateExecutionFailed }] = useCreateExecutionMutation()
 
-  useEffect(() => {
-    dispatch(fetchExamKeywords());
-  }, [dispatch]);
-
-  const startExam = (exam: string) => {
+  const startExam = (exam: IExam) => {
     //@TODO CREATE EXECUTION HERE
     const executionObject: Execution = {
       userId: user?.userId as number,
-      examId: 1,
-      currentQuestion: '',
-      startTime: '',
-      endTime: '',
+      examId: exam.examId as number,
+      currentQuestion: exam.questions[0].question,
+      executionEndTime: null,
       duration: '15:00',
       score: null,
       maxScore: 30,
@@ -59,9 +57,9 @@ export const ExamReduxProcess = () => {
         })
       )
 
-    dispatch(actions.startExam({ exam: examData as IExam }));
+    dispatch(actions.startExam({ exam }));
   };
-
+  console.log(exams);
   switch (state.type) {
     case 'QUESTION':
       switch (examType) {
@@ -93,10 +91,10 @@ export const ExamReduxProcess = () => {
         <>
           <Introduction />
           <div className={classes.wrapper}>
-            {state?.keywords?.map((exam, idx) => {
+            {exams?.map((exam: IExam) => {
               return (
-                <Button key={idx} onClick={() => startExam(exam)}>
-                  {exam}
+                <Button key={exam.examId} onClick={() => startExam(exam)}>
+                  {exam.name}
                 </Button>
               );
             })}
