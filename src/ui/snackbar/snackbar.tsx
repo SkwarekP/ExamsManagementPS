@@ -2,13 +2,23 @@ import classes from './snackbar.module.scss';
 import React, { useEffect, useState } from 'react';
 import bulbIcon from '../atoms/icons/icons8-bulb-emoji-32.png';
 import checkedIcon from '../atoms/icons/icons8-check-32.png';
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
+import { CheckIcon } from '@heroicons/react/20/solid';
+
 import { SnackbarProps } from './snackbar.utils';
 
 export const Snackbar: React.FC<SnackbarProps> = ({
   message,
-  severity
+  severity,
 }: SnackbarProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
+
+  const displayIcon = (): JSX.Element => {
+    if (severity === 'warning') return <ExclamationTriangleIcon />;
+    else if (severity === 'error') return <ExclamationCircleIcon />;
+    else return <CheckIcon />;
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,14 +36,11 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   };
 
   return isVisible ? (
-    <div
-      className={classes.wrapper}
-      style={{...severityStyles[severity]}}
-    >
-      <div className={classes.circle}>
-        <img src={severity === 'warning' ? bulbIcon : checkedIcon} alt="bulbIcon" />
+    <div className={classes.wrapper} style={{ ...severityStyles[severity] }}>
+      <div className={classes.icon__title}>
+        <div className={classes.icon_container}>{displayIcon()}</div>
+        <span>{message}</span>
       </div>
-      <span>{message}</span>
     </div>
-  ) : null
+  ) : null;
 };

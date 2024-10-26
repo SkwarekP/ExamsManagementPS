@@ -22,23 +22,23 @@ export const QuestionButton = ({ item, index, onShowTooltip }: Props) => {
         key={item.questionId}
         onClick={() => {
           if (state) {
-            if (item.questionId > state.answers.length + 1) {
+            if (index > state.answers.length + 1) {
               onShowTooltip(
                 'Impossible to show next question before answer to previous.'
               );
               return;
             }
-            dispatch(actions.updateCounter({ counter: item.questionId }));
+            dispatch(actions.updateCounter({ counter: index }));
           }
         }}
         className={`${classes.circle}
-                    ${state && state?.answers[index]?.id === item.questionId && classes.filledCircle} 
-                    ${state && state.counter === item.questionId && classes.actual}`}
+                    ${state && state?.answers[index]?.id === index && classes.filledCircle} 
+                    ${state && state.counter === index && classes.actual}`}
       >
-        <span>{item.questionId}</span>
+        <span>{index + 1}</span>
       </button>
       <div
-        className={`${classes.line} ${state && state?.answers[index]?.id === item.questionId && classes.filledLine}`}
+        className={`${classes.line} ${state && state?.answers[index]?.id === index && classes.filledLine}`}
       />
     </div>
   );

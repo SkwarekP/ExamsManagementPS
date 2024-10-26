@@ -6,32 +6,28 @@
     z-index: 100;
     padding: 0.75rem;
     width: 90%;
-    border-radius: 5px;
     color: white;
     background: darkred;
-    display: flex;
     align-items: center;
-    gap: 0.5rem;
     animation-name: slide;
     animation-duration: 0.5s;
   
-    .circle {
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-  
-      img {
-        width: 20px;
-        height: 20px;
-        margin: 0 auto;
+    .icon__title {
+      display:flex;
+      align-items: center;
+      gap:1rem;
+
+      .icon_container {
+        width:24px;
+        height:24px;
       }
-    }
-  
-    span {
-      font-size: 14px;
-    }
+
+      span {
+        font-size: 15px;
+        font-weight: 400;
+      }
   }
+}
   
   @keyframes slide {
     0% {
@@ -49,29 +45,26 @@
       right: unset;
       left: 0;
       bottom: 0;
-      padding: 1rem;
-      gap: 1rem;
+      padding: .75rem;
       width: unset;
-      border-radius: 5px;
       color: white;
-      display: flex;
-      align-items: center;
-  
-      .circle {
-        width: 25px;
-        height: 25px;
-        background: white;
-        border-radius: 50%;
-        position: relative;
-  
-        img {
-          width: 24px;
-          height: 24px;
+      font-size:13px;
+
+      .icon__title {
+        display:flex;
+        align-items: center;
+        gap:1rem;
+
+        .icon_container {
+          width:24px;
+          height:24px;
         }
-      }
-  
-      span {
-        font-size: 22px;
+
+        span {
+          font-size: 15px;
+          font-weight: 400;
+        }
+
       }
     }
   }

@@ -54,7 +54,7 @@ export const ExamTracking = ({ exam, onShowTooltip }: Props) => {
         {exam?.questions?.map((item, index) => {
           if (isPaginationNeeded) {
             if (
-              Math.floor(exam?.answersAmount / 2) >= item.questionId &&
+              Math.floor(exam?.answersAmount / 2) >= index &&
               !nextQuestions
             ) {
               return (
@@ -66,7 +66,7 @@ export const ExamTracking = ({ exam, onShowTooltip }: Props) => {
               );
             }
             if (
-              Math.floor(exam?.answersAmount / 2) < item.questionId &&
+              Math.floor(exam?.answersAmount / 2) < index &&
               nextQuestions
             ) {
               return (

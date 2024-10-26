@@ -180,7 +180,7 @@ export interface Execution {
   examId: number;
   currentQuestion?: string;
   startTime?: string; // should be created at the backend
-  endTime?: string; // should be created at the backend
+  executionEndTime?: string | null; // should be created at the backend
   duration?: string;
   score?: number | null;
   maxScore: number;
