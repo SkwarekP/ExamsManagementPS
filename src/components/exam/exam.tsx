@@ -1,6 +1,6 @@
 import classes from './exam.module.scss';
 import { Button } from '../../ui/atoms/buttons/button';
-import { IExam } from '../../types';
+import { IAnswer, IExam } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '../../redux/store';
 import { actions } from '../../redux/slices/examSlice';
@@ -24,6 +24,14 @@ interface ISavedUpdated {
   isUpdated: boolean;
 }
 
+interface QuestionState {
+  type: "QUESTION";
+  answers: IAnswer[];
+  counter: number;
+  answer?: string;
+  exam: IExam;
+}
+
 export const Exam = ({ exam }: Props) => {
   const dispatch: Dispatch = useDispatch();
   const [answer, setAnswer] = useState<string | undefined>(undefined);
@@ -34,12 +42,15 @@ export const Exam = ({ exam }: Props) => {
   });
   const [tooltipMessage, setTooltipMessage] = useState<string>('');
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
-  const state = useSelector((state: RootState) => state.exam);
+  const state = useSelector((state: RootState) => {
+    if(state.exam.type === "QUESTION") return state.exam
+  }) as QuestionState;
 
   const handleModal = () => dispatch(fetchExamKeywords());
   const closeModal = () => setIsModalShown(false);
 
-  console.log(exam);
+
+  console.log(state);
 
   const handleNextQuestion = () => {
     if (isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) return;
@@ -49,7 +60,6 @@ export const Exam = ({ exam }: Props) => {
       setIsValid(false);
       return;
     }
-    if (state.type === 'QUESTION') {
       setIsValid(true);
       const desiredIndex = state.answers.findIndex(
         (item) => item.id === state.counter
@@ -77,13 +87,10 @@ export const Exam = ({ exam }: Props) => {
       if (state.counter === exam?.questionsAmount) {
         dispatch(actions.finishExam());
       }
-    }
   };
 
   const handlePreviousQuestion = () => {
     if (isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) return;
-
-    if (state.type === 'QUESTION') {
       if (state.counter === 1) {
         setTooltipMessage('There is no previous question.');
         setIsValid(false);
@@ -98,7 +105,6 @@ export const Exam = ({ exam }: Props) => {
         })
       );
       setAnswer(undefined);
-    }
   };
 
   useEffect(() => {
@@ -136,7 +142,7 @@ export const Exam = ({ exam }: Props) => {
             <div className={classes.header}>
               <div>
                 <h3>
-                  Question {state.type === 'QUESTION' && state.counter}/
+                  Question {state.counter}/
                   {exam?.questions?.length}
                 </h3>
               </div>
@@ -149,7 +155,7 @@ export const Exam = ({ exam }: Props) => {
             <QuestionList exam={exam} onAnswer={onAnswer} />
             <div className={classes.button__list}>
               <Button onClick={handlePreviousQuestion}>previous</Button>
-              <Button onClick={handleNextQuestion} width={100}>
+              <Button onClick={handleNextQuestion} width={75}>
                 next
               </Button>
             </div>

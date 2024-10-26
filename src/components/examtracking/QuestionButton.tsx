@@ -33,7 +33,7 @@ export const QuestionButton = ({ item, index, onShowTooltip }: Props) => {
         }}
         className={`${classes.circle}
                     ${state && state?.answers[index]?.id === index && classes.filledCircle} 
-                    ${state && state.counter === index && classes.actual}`}
+                    ${state && state.counter === index + 1 && classes.actual}`}
       >
         <span>{index + 1}</span>
       </button>

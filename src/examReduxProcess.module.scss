@@ -8,12 +8,49 @@
 }
 
 @media (min-width: 968px) {
-  .wrapper {
+  .examList {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    gap: 3rem;
-    width: 70%;
-    margin: 2rem auto;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 20px;
   }
+  
+  .examCard {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 220px;
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  .examCard:hover {
+    transform: scale(1.10);
+  }
+  
+  .examIcon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .examCard h3 {
+    font-size: 1.2rem;
+    margin: 5px 0;
+    color: #333;
+  }
+  
+  .examDescription {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .examQuestions {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  
 }

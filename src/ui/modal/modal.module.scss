@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 1rem;
+  padding: .75rem 0 1rem 0;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -10,12 +10,24 @@
   border-radius: 10px;
   background: #ffffff;
 
+  .close__icon {
+    position: absolute;
+    right:0;
+    top:0;
+    margin: .5rem;
+    cursor: pointer;
+  }
+  .close__icon:first-child {
+    width:24px;
+  }
+
   .header {
     text-align: center;
 
     p {
       margin: 0 0 2rem 0;
-      font-size: 28px;
+      font-size: 18px;
+      font-weight: 400;
     }
 
     .warning {
@@ -25,12 +37,14 @@
       align-items: center;
 
       h3 {
-        font-size: 24px;
+        font-size: 18px;
+        font-weight: 600;
         margin-bottom: 0.75rem;
       }
 
       img {
         max-width: 100%;
+        width:24px;
         margin-top: 0.75rem;
       }
     }
@@ -38,8 +52,7 @@
 
   .button__list {
     display: flex;
-    gap: 0.5rem;
-    justify-content: right;
+    justify-content: center;
   }
 }
 
