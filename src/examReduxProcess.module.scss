@@ -1,13 +1,62 @@
-.wrapper {
-  margin-top: 1rem;
-  display: block;
-  justify-content: center;
-  flex-direction: column;
+.examList {
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.examCard {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: .75rem;
+  width: auto;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.examCard h3 {
+  font-size: 1.2rem;
+  margin: 5px 0;
+  color: #333;
+}
+
+.examDescription {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.examQuestions {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 10px;
 }
 
 @media (min-width: 968px) {
+  .search_input__container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 2rem 0;
+
+    .search_input {
+      width: 300px;
+      padding: 10px;
+      font-size: 14px;
+      color: #000;
+      border-top:none;
+      border-left:none;
+      border-right:none;
+      border-bottom: 1px solid #000;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .search_input::placeholder{
+      font-size: 14px;
+    }
+  }
+
   .examList {
     display: flex;
     flex-wrap: wrap;
@@ -15,42 +64,36 @@
     justify-content: center;
     margin-top: 20px;
   }
-  
+
   .examCard {
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 220px;
     text-align: center;
     transition: transform 0.2s ease;
   }
-  
+
   .examCard:hover {
-    transform: scale(1.10);
+    transform: scale(1.05);
   }
-  
-  .examIcon {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-  
+
   .examCard h3 {
     font-size: 1.2rem;
     margin: 5px 0;
     color: #333;
   }
-  
+
   .examDescription {
     font-size: 0.9rem;
     color: #555;
     margin-bottom: 5px;
   }
-  
+
   .examQuestions {
     font-size: 0.85rem;
     color: #888;
     margin-bottom: 10px;
   }
-  
+
 }
