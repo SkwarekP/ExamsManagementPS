@@ -6,7 +6,8 @@ type Severities = "error" | "warning" | "success"
 interface SnackbarOptions {
     severity: Severities,
     title?: string,
-    message: string
+    message: string,
+    subMessage?: string
 }
 
 export const useSnackbar = () => {
@@ -26,6 +27,7 @@ export const useSnackbar = () => {
             <Snackbar
                 severity={options.severity}
                 message={options.message}
+                submessage={options?.subMessage}
                 title={options?.title}
             />,
             snackbarDiv

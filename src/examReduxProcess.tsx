@@ -7,10 +7,9 @@ import { Loader } from './ui/atoms/loader/loader';
 import { Form } from './components/form/form';
 import { Introduction } from './ui/introduction/introduction';
 import { Summary } from './components/summary/summary';
-import { fetchExamKeywords } from './redux/thunks';
 import { Error } from './ui/error/error';
-import { useEffect } from 'react';
-import { useCreateExecutionMutation, useFetchAllExamsQuery, useFetchExamQuery, useFetchUserQuery } from './redux/queries/ExamQueries';
+import { useEffect, useState, useMemo } from 'react';
+import { useCreateExecutionMutation, useFetchAllExamsQuery, useFetchUserQuery } from './redux/queries/ExamQueries';
 import { actions } from './redux/slices/examSlice';
 import { Execution, Execution_Status, IExam } from './types';
 import { useSnackbar } from './hooks/useSnackbar';
@@ -26,41 +25,79 @@ export const ExamReduxProcess = () => {
     data: exams,
     isLoading: isExamsLoading,
     isError: isExamsFetchError,
+    isSuccess: isExamsFetchedSuccessfully
   } = useFetchAllExamsQuery();
 
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const { data: user, isLoading: isUserLoading, isError: isFetchingUserError } = useFetchUserQuery({ userId: 1 });
-  const [createExecution, { isLoading: isCreatingExecution, isError: isCreateExecutionFailed }] = useCreateExecutionMutation()
+  const { data: user, isLoading: isUserLoading } = useFetchUserQuery({ userId: 2 });
 
-  const startExam = (exam: IExam) => {
-    //@TODO CREATE EXECUTION HERE
-    const executionObject: Execution = {
-      userId: user?.userId as number,
-      examId: exam.examId as number,
-      currentQuestion: exam.questions[0].question,
-      executionEndTime: null,
-      duration: '15:00',
-      score: null,
-      maxScore: 30,
-      passed: null,
-      status: Execution_Status.IN_PROGRESS,
-    }
-    createExecution(executionObject)
-      .unwrap()
-      .then(() => snackbar.show({
-        severity: "success",
-        message: SNACKBAR_CONSTANTS.CREATE_EXECUTION_SUCCESS
-      }))
-      .catch(() => snackbar.show({
-        severity: "error",
-        message: SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED
+  const [createExecution] = useCreateExecutionMutation()
+
+  const filteredExams = useMemo(() => {
+    return exams?.filter((exam) => exam.name.toLowerCase().startsWith(searchQuery)) as IExam[];
+  }, [exams, searchQuery])
+
+  useEffect(() => {
+    if (isExamsFetchError) {
+      snackbar.show({
+        severity: 'error',
+        message: SNACKBAR_CONSTANTS.FETCH_EXAMS_FAILED_MESSAGE
       })
-      )
+    }
 
-    dispatch(actions.startExam({ exam }));
+  }, [isExamsFetchError, snackbar])
+
+  const startExamHandler = (exam: IExam) => {
+    if (user && isExamsFetchedSuccessfully) {
+      const executionObject: Execution = {
+        userId: user.userId,
+        examId: exam.examId,
+        currentQuestion: exam.questions[0].question,
+        executionEndTime: null,
+        duration: '15:00',
+        score: null,
+        maxScore: 30,
+        passed: null,
+        status: Execution_Status.IN_PROGRESS,
+      }
+      createExecution(executionObject)
+        .unwrap()
+        .then(() => dispatch(actions.startExam({ exam })))
+        .catch((error) => {
+          snackbar.show({
+            severity: "error",
+            message: error.status === 409 ? SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED_CONFLICT : SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED,
+            subMessage: 'please complete the current attempt first.'
+          })
+        })
+    } else {
+      snackbar.show({
+        severity: 'error',
+        message: SNACKBAR_CONSTANTS.FETCH_CURRENT_USER
+      })
+    }
   };
 
-  if (isExamsLoading || isUserLoading || isCreatingExecution) return <Loader />
+  const introduceExams: JSX.Element =
+    <>
+      <Introduction />
+      <div className={classes.search_input__container}>
+        <input type="text" className={classes.search_input} placeholder='Search by name...' onChange={(event) => setSearchQuery(event.target.value.toLowerCase())}/>
+      </div>
+      <div className={classes.examList}>
+        {(isExamsLoading || isUserLoading) && <Loader />}
+        {filteredExams?.map((exam) => (
+          <div key={exam.examId} className={classes.examCard}>
+            <h3>{exam.name}</h3>
+            <p className={classes.examDescription}>some description of this exam</p>
+            <p className={classes.examQuestions}>{exam.questions.length} questions</p>
+            <Button onClick={() => startExamHandler(exam)}>Start</Button>
+          </div>
+        ))}
+      </div>
+    </>
+
 
   switch (state.type) {
     case 'QUESTION':
@@ -89,22 +126,7 @@ export const ExamReduxProcess = () => {
     case 'EXCEPTION':
       return <Error error={state.error} />;
     case 'CHOOSE_EXAM':
-      return (
-        <>
-          <Introduction />
-          <div className={classes.examList}>
-            {(isExamsLoading || isUserLoading) && <Loader />}
-            {exams?.map((exam) => (
-              <div key={exam.examId} className={classes.examCard}>
-                <h3>{exam.name}</h3>
-                <p className={classes.examDescription}>some description of this exam</p>
-                <p className={classes.examQuestions}>{exam.questions.length} questions</p>
-                <Button onClick={() => startExam(exam)}>Start</Button>
-              </div>
-            ))}
-          </div>
-        </>
-      );
+      return introduceExams
     default:
       return <>OTHER</>;
   }

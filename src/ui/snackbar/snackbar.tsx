@@ -10,6 +10,7 @@ import { SnackbarProps } from './snackbar.utils';
 
 export const Snackbar: React.FC<SnackbarProps> = ({
   message,
+  submessage,
   severity,
 }: SnackbarProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -41,6 +42,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         <div className={classes.icon_container}>{displayIcon()}</div>
         <span>{message}</span>
       </div>
+      {submessage && <span className={classes.sub_message}>{submessage}</span>}
     </div>
   ) : null;
 };
