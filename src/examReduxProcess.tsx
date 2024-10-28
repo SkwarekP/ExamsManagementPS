@@ -12,14 +12,14 @@ import { useEffect, useState, useMemo } from 'react';
 import { useCreateExecutionMutation, useFetchAllExamsQuery, useFetchUserQuery } from './redux/queries/ExamQueries';
 import { actions } from './redux/slices/examSlice';
 import { Execution, Execution_Status, IExam } from './types';
-import { useSnackbar } from './hooks/useSnackbar';
 import { SNACKBAR_CONSTANTS } from './constants/snackbar-messages';
+import { useSnackbar } from './hooks/useSnackbar';
 
 export const ExamReduxProcess = () => {
   const state = useSelector((state: RootState) => state.exam);
   const examType = useSelector((state: RootState) => state?.exam?.type);
   const dispatch: Dispatch = useDispatch();
-  const snackbar = useSnackbar();
+  const snackbar =  useSnackbar();
 
   const {
     data: exams,
@@ -42,12 +42,13 @@ export const ExamReduxProcess = () => {
     if (isExamsFetchError) {
       snackbar.show({
         severity: 'error',
-        message: SNACKBAR_CONSTANTS.FETCH_EXAMS_FAILED_MESSAGE
+        title: SNACKBAR_CONSTANTS.FETCH_EXAMS_FAILED_TITLE
       })
     }
 
   }, [isExamsFetchError, snackbar])
 
+  console.log(isExamsLoading, isUserLoading)
   const startExamHandler = (exam: IExam) => {
     if (user && isExamsFetchedSuccessfully) {
       const executionObject: Execution = {
@@ -67,14 +68,14 @@ export const ExamReduxProcess = () => {
         .catch((error) => {
           snackbar.show({
             severity: "error",
-            message: error.status === 409 ? SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED_CONFLICT : SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED,
-            subMessage: 'please complete the current attempt first.'
+            title: error.status === 409 ? SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED_CONFLICT : SNACKBAR_CONSTANTS.CREATE_EXECUTION_FAILED,
+            content: SNACKBAR_CONSTANTS.FETCH_EXAMS_FAILED_SUBTITLE
           })
         })
     } else {
       snackbar.show({
         severity: 'error',
-        message: SNACKBAR_CONSTANTS.FETCH_CURRENT_USER
+        title: SNACKBAR_CONSTANTS.FETCH_CURRENT_USER
       })
     }
   };

@@ -1,7 +1,7 @@
 export const SNACKBAR_CONSTANTS = {
     //EXAM
-    FETCH_EXAMS_FAILED_MESSAGE: "Cannot get exams information",
-    FETCH_EXAMS_FAILED_SUBMESSAGE: "Please refresh the page",
+    FETCH_EXAMS_FAILED_TITLE: "Cannot get exams information",
+    FETCH_EXAMS_FAILED_SUBTITLE: "please complete the current attempt.",
     //USER
     FETCH_CURRENT_USER: 'Cannot identify the current user',
     //EXECUTION

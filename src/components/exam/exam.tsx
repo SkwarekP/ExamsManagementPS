@@ -169,9 +169,9 @@ export const Exam = ({ exam }: Props) => {
                 <Backdrop onClose={closeModal} />,
                 document.getElementById('backdrop')!
               )}
-            {!isValid && <Snackbar message={tooltipMessage} severity='warning'/>}
+            {!isValid && <Snackbar />}
             {(isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) && (
-              <Snackbar message={tooltipMessage} severity='success'/>
+              <Snackbar />
             )}
           </div>
         </>
