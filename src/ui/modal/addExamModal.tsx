@@ -548,10 +548,10 @@ export const AddExamModal = ({ onConfirm, onClose }: IModal) => {
         </div>
       </div>
       {!isValidationOk.isValid && (
-        <Snackbar  message={isValidationOk.message} severity='warning'/>
+        <Snackbar />
       )}
       {(isSuccess.isAdded || isSuccess.isUpdated) && (
-        <Snackbar message={isSuccess.message} severity='success'/>
+        <Snackbar />
       )}
     </>
   );

@@ -1,48 +1,47 @@
-import { useEffect, useState } from "react";
-import { Snackbar } from "../ui/snackbar/snackbar";
-import ReactDOM from "react-dom";
+import { useCallback, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  SnackbarPayload,
+  removeSnackbar,
+  resetSnackBar,
+  setSnackBar,
+} from '../redux/slices/alertSlice';
 
-type Severities = "error" | "warning" | "success"
-interface SnackbarOptions {
-    severity: Severities,
-    title?: string,
-    message: string,
-    subMessage?: string
-}
+export type Snackbar = {
+  show: (payload: SnackbarPayload) => void;
+  reset: () => void;
+  remove: (id: string) => void;
+};
 
-export const useSnackbar = () => {
-    const [snackbarOptions, setSnackbarOptions] = useState<SnackbarOptions | null>(null);
+const useSnackbar = () => {
+  const dispatch = useDispatch();
 
+  const show = useCallback(
+    (payload: SnackbarPayload) => {
+      dispatch(setSnackBar(payload));
+    },
+    [dispatch]
+  );
 
-    const show = (options: SnackbarOptions) => {
-        setSnackbarOptions(options);
-        setTimeout(() => {
-            setSnackbarOptions(null)
-        }, 2500);
-    }
+  const remove = useCallback(
+    (id: string) => {
+      dispatch(removeSnackbar({ id }));
+    },
+    [dispatch]
+  );
 
-    const renderSnackbar = (options: SnackbarOptions) => {
-        const snackbarDiv = document.createElement('div');
-        ReactDOM.render(
-            <Snackbar
-                severity={options.severity}
-                message={options.message}
-                submessage={options?.subMessage}
-                title={options?.title}
-            />,
-            snackbarDiv
-        );
+  const reset = useCallback(() => {
+    dispatch(resetSnackBar());
+  }, [dispatch]);
 
-        return snackbarDiv;
-    };
+  return useMemo(
+    () => ({
+      show,
+      reset,
+      remove,
+    }),
+    [reset, show, remove]
+  );
+};
 
-    useEffect(() => {
-        if (snackbarOptions) {
-            document.body.appendChild(renderSnackbar(snackbarOptions));
-        }
-    }, [snackbarOptions])
-
-    return {
-        show
-    }
-}
+export { useSnackbar };
