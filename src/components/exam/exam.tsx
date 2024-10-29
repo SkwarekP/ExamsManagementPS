@@ -1,6 +1,6 @@
 import classes from './exam.module.scss';
 import { Button } from '../../ui/atoms/buttons/button';
-import { IAnswer, IExam } from '../../types';
+import { IAnswer, IExam, UpdateExeuction } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '../../redux/store';
 import { actions } from '../../redux/slices/examSlice';
@@ -14,6 +14,7 @@ import { createPortal } from 'react-dom';
 import { Backdrop } from '../../ui/modal/backdrop';
 import { Error } from '../../ui/error/error';
 import crossIcon from '../../ui/atoms/icons/cross.png';
+import {useUpdateExecutionMutation} from '../../redux/queries/ExamQueries'
 
 export interface Props {
   exam: IExam;
@@ -45,6 +46,8 @@ export const Exam = ({ exam }: Props) => {
   const state = useSelector((state: RootState) => {
     if(state.exam.type === "QUESTION") return state.exam
   }) as QuestionState;
+
+  const [updateExecution, {isLoading: isExecutionUpdated, isError: IsExecutionUpdateError}] = useUpdateExecutionMutation();
 
   const handleModal = () => dispatch(fetchExamKeywords());
   const closeModal = () => setIsModalShown(false);
@@ -87,6 +90,22 @@ export const Exam = ({ exam }: Props) => {
       if (state.counter === exam?.questionsAmount) {
         dispatch(actions.finishExam());
       }
+
+      const updateExecutionData: UpdateExeuction = {
+        userId: 2,
+        currentQuestion: '',
+        answeredQuestionsAmount: 1,
+        answer: {
+          questionId: exam.questions[state.counter - 1].questionId,
+          answer: answer
+        }
+      }
+
+      //@TODO make a proper call to api
+      // updateExecution({
+
+      // })
+
   };
 
   const handlePreviousQuestion = () => {
