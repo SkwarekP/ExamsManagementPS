@@ -30,6 +30,13 @@ export const examApi = createApi({
         body: newExecution,
       }),
     }),
+    updateExecution: builder.mutation({
+      query: (execution: Execution) => ({
+        url: `/execution/${execution.executionId}`,
+        method: 'PUT',
+        body: execution
+      })
+    }),
     fetchUsers: builder.query<User[], void>({
       query: () => '',
       providesTags: ['Users'],
@@ -46,6 +53,7 @@ export const {
   useFetchExamQuery,
   useFetchAnswersByExamIdQuery,
   useCreateExecutionMutation,
+  useUpdateExecutionMutation,
   useFetchUsersQuery,
   useFetchUserQuery
 } = examApi;

@@ -48,7 +48,6 @@ export const ExamReduxProcess = () => {
 
   }, [isExamsFetchError, snackbar])
 
-  console.log(isExamsLoading, isUserLoading)
   const startExamHandler = (exam: IExam) => {
     if (user && isExamsFetchedSuccessfully) {
       const executionObject: Execution = {

@@ -189,3 +189,16 @@ export interface Execution {
   createdAt?: string; //should be created at the backend
   updatedAt?: string; // should be created at the backend
 }
+
+export interface UpdateAnswers {
+  questionId: number,
+  answer: string
+}
+
+export interface UpdateExeuction {
+  userId?: number;
+  currentQuestion: string;
+  answeredQuestionsAmount: number;
+  answer: UpdateAnswers;
+  passed?: boolean;
+}
