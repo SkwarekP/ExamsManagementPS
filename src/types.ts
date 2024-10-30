@@ -175,7 +175,22 @@ export type ExamState =
     };
 
 export interface Execution {
-  executionId?: string;
+  executionId: string | null;
+  userId: number;
+  examId: number;
+  currentQuestion?: string;
+  startTime?: string; // should be created at the backend
+  executionEndTime?: string | null; // should be created at the backend
+  duration?: string;
+  score?: number | null;
+  maxScore: number;
+  passed: boolean | null;
+  status: ExecutionStatus;
+  createdAt?: string; //should be created at the backend
+  updatedAt?: string; // should be created at the backend
+}
+
+export interface CreateExecution {
   userId: number;
   examId: number;
   currentQuestion?: string;
@@ -199,6 +214,6 @@ export interface UpdateExeuction {
   userId?: number;
   currentQuestion: string;
   answeredQuestionsAmount: number;
-  answer: UpdateAnswers;
+  answers: UpdateAnswers;
   passed?: boolean;
 }

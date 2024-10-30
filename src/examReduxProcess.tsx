@@ -11,14 +11,15 @@ import { Error } from './ui/error/error';
 import { useEffect, useState, useMemo } from 'react';
 import { useCreateExecutionMutation, useFetchAllExamsQuery, useFetchUserQuery } from './redux/queries/ExamQueries';
 import { actions } from './redux/slices/examSlice';
-import { Execution, Execution_Status, IExam } from './types';
+import { executionActions } from './redux/slices/executionSlice';
+import { CreateExecution, Execution, Execution_Status, IExam } from './types';
 import { SNACKBAR_CONSTANTS } from './constants/snackbar-messages';
 import { useSnackbar } from './hooks/useSnackbar';
 
 export const ExamReduxProcess = () => {
   const state = useSelector((state: RootState) => state.exam);
   const examType = useSelector((state: RootState) => state?.exam?.type);
-  const dispatch: Dispatch = useDispatch();
+  const dispatch = useDispatch();
   const snackbar =  useSnackbar();
 
   const {
@@ -33,7 +34,6 @@ export const ExamReduxProcess = () => {
   const { data: user, isLoading: isUserLoading } = useFetchUserQuery({ userId: 2 });
 
   const [createExecution] = useCreateExecutionMutation()
-
   const filteredExams = useMemo(() => {
     return exams?.filter((exam) => exam.name.toLowerCase().startsWith(searchQuery)) as IExam[];
   }, [exams, searchQuery])
@@ -47,10 +47,10 @@ export const ExamReduxProcess = () => {
     }
 
   }, [isExamsFetchError, snackbar])
-
+  // dispatch(executionActions.setExecutionId({executionId: }))
   const startExamHandler = (exam: IExam) => {
     if (user && isExamsFetchedSuccessfully) {
-      const executionObject: Execution = {
+      const executionObject: CreateExecution = {
         userId: user.userId,
         examId: exam.examId,
         currentQuestion: exam.questions[0].question,
@@ -63,6 +63,7 @@ export const ExamReduxProcess = () => {
       }
       createExecution(executionObject)
         .unwrap()
+        .then((execution) => dispatch(executionActions.setExecutionId({executionId: execution.executionId})))
         .then(() => dispatch(actions.startExam({ exam })))
         .catch((error) => {
           snackbar.show({
