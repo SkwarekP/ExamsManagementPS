@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AllCorrectAnswers, Execution, IExam } from '../../types';
+import { AllCorrectAnswers, CreateExecution, Execution, IExam, UpdateExeuction } from '../../types';
 import { User } from '../../mocks/user.utils';
 
 export const examApi = createApi({
@@ -24,17 +24,17 @@ export const examApi = createApi({
       query: ({ examId }) => `answers/exam/${examId}`,
     }),
     createExecution: builder.mutation({
-      query: (newExecution: Execution) => ({
+      query: (newExecution: CreateExecution) => ({
         url: '/executions',
         method: 'POST',
         body: newExecution,
       }),
     }),
-    updateExecution: builder.mutation({
-      query: (execution: Execution) => ({
-        url: `/execution/${execution.executionId}`,
-        method: 'PUT',
-        body: execution
+    updateExecution: builder.mutation<void, {execution: UpdateExeuction, executionId: string}>({
+      query: ({execution, executionId}) => ({
+        url: `/executions/execution/${executionId}`,
+        method: 'PATCH',
+        body: execution,
       })
     }),
     fetchUsers: builder.query<User[], void>({

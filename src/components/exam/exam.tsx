@@ -14,7 +14,9 @@ import { createPortal } from 'react-dom';
 import { Backdrop } from '../../ui/modal/backdrop';
 import { Error } from '../../ui/error/error';
 import crossIcon from '../../ui/atoms/icons/cross.png';
-import {useUpdateExecutionMutation} from '../../redux/queries/ExamQueries'
+import { useUpdateExecutionMutation } from '../../redux/queries/ExamQueries'
+import { useSnackbar } from '../../hooks/useSnackbar';
+import { SNACKBAR_CONSTANTS } from '../../constants/snackbar-messages';
 
 export interface Props {
   exam: IExam;
@@ -35,6 +37,7 @@ interface QuestionState {
 
 export const Exam = ({ exam }: Props) => {
   const dispatch: Dispatch = useDispatch();
+  const snackbar = useSnackbar();
   const [answer, setAnswer] = useState<string | undefined>(undefined);
   const [isValid, setIsValid] = useState<boolean>(true);
   const [isSavedOrUpdated, setIsSavedOrUpdated] = useState<ISavedUpdated>({
@@ -44,16 +47,15 @@ export const Exam = ({ exam }: Props) => {
   const [tooltipMessage, setTooltipMessage] = useState<string>('');
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
   const state = useSelector((state: RootState) => {
-    if(state.exam.type === "QUESTION") return state.exam
+    if (state.exam.type === "QUESTION") return state.exam
   }) as QuestionState;
 
-  const [updateExecution, {isLoading: isExecutionUpdated, isError: IsExecutionUpdateError}] = useUpdateExecutionMutation();
+  const executionState = useSelector((state: RootState) => state.execution)
+
+  const [updateExecution, { isLoading: isExecutionUpdated, isError: IsExecutionUpdateError }] = useUpdateExecutionMutation();
 
   const handleModal = () => dispatch(fetchExamKeywords());
   const closeModal = () => setIsModalShown(false);
-
-
-  console.log(state);
 
   const handleNextQuestion = () => {
     if (isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) return;
@@ -63,67 +65,89 @@ export const Exam = ({ exam }: Props) => {
       setIsValid(false);
       return;
     }
-      setIsValid(true);
-      const desiredIndex = state.answers.findIndex(
-        (item) => item.id === state.counter
-      );
+    setIsValid(true);
+    const desiredIndex = state.answers.findIndex(
+      (item) => item.id === state.counter
+    );
 
-      if (desiredIndex !== -1) {
-        dispatch(
-          actions.updateAnswer({ id: state.counter, currentAnswer: answer })
-        );
-        setAnswer(undefined);
-        setTooltipMessage('The answer has been updated.');
-        setIsSavedOrUpdated({ ...isSavedOrUpdated, isUpdated: true });
-        return;
-      }
+    if (desiredIndex !== -1) {
       dispatch(
-        actions.saveAnswer({
-          answers: [...state.answers],
-          currentAnswer: answer,
-        })
+        actions.updateAnswer({ id: state.counter, currentAnswer: answer })
       );
       setAnswer(undefined);
-      setTooltipMessage('The answer has been saved.');
-      setIsSavedOrUpdated({ ...isSavedOrUpdated, isSaved: true });
+      setTooltipMessage('The answer has been updated.');
+      setIsSavedOrUpdated({ ...isSavedOrUpdated, isUpdated: true });
+      return;
+    }
+    dispatch(
+      actions.saveAnswer({
+        answers: [...state.answers],
+        currentAnswer: answer,
+      })
+    );
+    setAnswer(undefined);
+    setTooltipMessage('The answer has been saved.');
+    setIsSavedOrUpdated({ ...isSavedOrUpdated, isSaved: true });
 
-      if (state.counter === exam?.questionsAmount) {
-        dispatch(actions.finishExam());
+    if (state.counter === exam?.questionsAmount) {
+      dispatch(actions.finishExam());
+    }
+
+    const updateExecutionData: UpdateExeuction = {
+      userId: 2,
+      currentQuestion: exam.questions[state.counter - 1].question,
+      answeredQuestionsAmount: 1,
+      answers: {
+        questionId: exam.questions[state.counter - 1].questionId,
+        answer: answer
       }
+    }
 
-      const updateExecutionData: UpdateExeuction = {
-        userId: 2,
-        currentQuestion: '',
-        answeredQuestionsAmount: 1,
-        answer: {
-          questionId: exam.questions[state.counter - 1].questionId,
-          answer: answer
-        }
-      }
+    if (!executionState.executionId) {
+      return snackbar.show({
+        title: 'something went wrong ',
+        content: 'There was some problem while getting an execution',
+        severity: 'error',
+      })
+    }
 
-      //@TODO make a proper call to api
-      // updateExecution({
+    updateExecution({
+      execution: updateExecutionData,
+      executionId: executionState.executionId
+    })
+      .unwrap()
+      .then(() => {
+        snackbar.show({
+          title: SNACKBAR_CONSTANTS.UPDATE_EXECUTION_SUCCESS,
+          severity: 'success'
+        })
+      })
+      .catch(() => {
+        snackbar.show({
+          title: SNACKBAR_CONSTANTS.UPDATE_EXECUTION_FAILED,
+          severity: 'error'
+        })
+      })
 
-      // })
 
   };
 
   const handlePreviousQuestion = () => {
     if (isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) return;
-      if (state.counter === 1) {
-        setTooltipMessage('There is no previous question.');
-        setIsValid(false);
-        return;
-      }
-      setIsValid(true);
+    if (state.counter === 1) {
+      setTooltipMessage('There is no previous question.');
+      setIsValid(false);
+      return;
+    }
+    setIsValid(true);
 
-      dispatch(
-        actions.previousQuestion({
-          answers: [...state.answers],
-          counter: state.counter - 1,
-        })
-      );
-      setAnswer(undefined);
+    dispatch(
+      actions.previousQuestion({
+        answers: [...state.answers],
+        counter: state.counter - 1,
+      })
+    );
+    setAnswer(undefined);
   };
 
   useEffect(() => {

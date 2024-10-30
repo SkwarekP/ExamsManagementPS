@@ -7,5 +7,7 @@ export const SNACKBAR_CONSTANTS = {
     //EXECUTION
     CREATE_EXECUTION_SUCCESS: "Your attempt has been created and saved",
     CREATE_EXECUTION_FAILED: "Your attempt has not been saved",
-    CREATE_EXECUTION_FAILED_CONFLICT: "This user already has open incompleted exam"
+    CREATE_EXECUTION_FAILED_CONFLICT: "This user already has open incompleted exam",
+    UPDATE_EXECUTION_FAILED: "Cannot save the question",
+    UPDATE_EXECUTION_SUCCESS: "The answer has been saved"
 }
