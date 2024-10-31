@@ -84,8 +84,11 @@ export const ExamReduxProcess = () => {
     <>
       <Introduction />
       <div className={classes.search_input__container}>
-        <input type="text" className={classes.search_input} placeholder='Search by name...' onChange={(event) => setSearchQuery(event.target.value.toLowerCase())}/>
+        <input type="text" disabled={isExamsFetchError || isExamsLoading} className={classes.search_input} placeholder='Search by name...' onChange={(event) => setSearchQuery(event.target.value.toLowerCase())}/>
       </div>
+      {isExamsFetchError && <div className={classes.no_exams_available}>
+        No exams to display. Try to refresh the page.
+      </div>}
       <div className={classes.examList}>
         {(isExamsLoading || isUserLoading) && <Loader />}
         {filteredExams?.map((exam) => (
@@ -101,7 +104,7 @@ export const ExamReduxProcess = () => {
 
 
   switch (state.type) {
-    case 'QUESTION':
+    case 'EXAM_PROCESS':
       switch (examType) {
         case state?.type:
           return <Exam exam={state?.exam} />;

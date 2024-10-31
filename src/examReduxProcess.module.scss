@@ -57,6 +57,14 @@
     }
   }
 
+  .no_exams_available {
+    border: 1px;
+    padding: 20px;
+    text-align: center;
+    opacity: .3;
+    font-size: 18px;
+  }
+
   .examList {
     display: flex;
     flex-wrap: wrap;

@@ -23,8 +23,8 @@
   }
 
   .circle {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     position: relative;
     background: #434341;
@@ -36,8 +36,8 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 500;
       color: white;
     }
   }

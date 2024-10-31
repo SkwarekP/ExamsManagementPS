@@ -1,7 +1,8 @@
 export const SNACKBAR_CONSTANTS = {
     //EXAM
     FETCH_EXAMS_FAILED_TITLE: "Cannot get exams information",
-    FETCH_EXAMS_FAILED_SUBTITLE: "please complete the current attempt.",
+    FETCH_EXAMS_FAILED_SUBTITLE: "Please complete the current attempt.",
+
     //USER
     FETCH_CURRENT_USER: 'Cannot identify the current user',
     //EXECUTION
@@ -9,5 +10,6 @@ export const SNACKBAR_CONSTANTS = {
     CREATE_EXECUTION_FAILED: "Your attempt has not been saved",
     CREATE_EXECUTION_FAILED_CONFLICT: "This user already has open incompleted exam",
     UPDATE_EXECUTION_FAILED: "Cannot save the question",
-    UPDATE_EXECUTION_SUCCESS: "The answer has been saved"
+    UPDATE_EXECUTION_SUCCESS: "The answer has been saved",
+    SAVE_EMPTY_ANSWER: "You didn't select any of the answers."
 }

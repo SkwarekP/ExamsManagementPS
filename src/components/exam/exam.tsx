@@ -28,7 +28,7 @@ interface ISavedUpdated {
 }
 
 interface QuestionState {
-  type: "QUESTION";
+  type: "EXAM_PROCESS";
   answers: IAnswer[];
   counter: number;
   answer?: string;
@@ -47,7 +47,7 @@ export const Exam = ({ exam }: Props) => {
   const [tooltipMessage, setTooltipMessage] = useState<string>('');
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
   const state = useSelector((state: RootState) => {
-    if (state.exam.type === "QUESTION") return state.exam
+    if (state.exam.type === "EXAM_PROCESS") return state.exam
   }) as QuestionState;
 
   const executionState = useSelector((state: RootState) => state.execution)
@@ -61,8 +61,10 @@ export const Exam = ({ exam }: Props) => {
     if (isSavedOrUpdated.isSaved || isSavedOrUpdated.isUpdated) return;
 
     if (!answer) {
-      setTooltipMessage('At least one option has to be checked.');
-      setIsValid(false);
+      snackbar.show({
+        title: SNACKBAR_CONSTANTS.SAVE_EMPTY_ANSWER,
+        severity: 'error'
+      })
       return;
     }
     setIsValid(true);
