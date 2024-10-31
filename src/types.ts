@@ -152,7 +152,7 @@ export type ExamState =
       type: 'LOADING';
     }
   | {
-      type: 'QUESTION';
+      type: 'EXAM_PROCESS';
       answers: IAnswer[];
       counter: number;
       answer?: string;

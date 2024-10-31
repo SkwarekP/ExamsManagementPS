@@ -12,7 +12,7 @@ interface Props {
 
 export const QuestionButton = ({ item, index, onShowTooltip }: Props) => {
   const state = useSelector(
-    (state: RootState) => state.exam.type === 'QUESTION' && state.exam
+    (state: RootState) => state.exam.type === 'EXAM_PROCESS' && state.exam
   );
   const dispatch: Dispatch = useDispatch();
 

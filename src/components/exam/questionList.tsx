@@ -16,7 +16,7 @@ export const QuestionList: React.FC<Props> = ({ onAnswer, exam }) => {
   );
 
   useEffect(() => {
-    if (state.type === 'QUESTION') {
+    if (state.type === 'EXAM_PROCESS') {
       if (state?.answers[state.counter - 1]?.answer) {
         setCurrentAnswer(state?.answers[state.counter - 1]?.answer);
       }
@@ -26,7 +26,7 @@ export const QuestionList: React.FC<Props> = ({ onAnswer, exam }) => {
 
   return (
     <>
-      {state.type === 'QUESTION' &&
+      {state.type === 'EXAM_PROCESS' &&
         exam?.questions?.map((item, idx) => {
           if (state.counter - 1 === idx) {
             return (

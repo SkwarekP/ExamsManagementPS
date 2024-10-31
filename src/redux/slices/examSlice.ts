@@ -32,7 +32,7 @@ export const examSlice = createSlice({
   reducers: {
     loading: (state) => ({ type: 'LOADING' }),
     finishExam: (state) => {
-      if (state.type === 'QUESTION') {
+      if (state.type === 'EXAM_PROCESS') {
         return {
           type: 'FINISH_EXAM',
           result: [...state.answers],
@@ -71,7 +71,7 @@ export const examSlice = createSlice({
         };
       }
     ) => ({
-      type: 'QUESTION',
+      type: 'EXAM_PROCESS',
       answers: [],
       counter: 1,
       exam: action.payload.exam,
@@ -116,7 +116,7 @@ export const examSlice = createSlice({
         };
       }
     ) => ({
-      type: 'QUESTION',
+      type: 'EXAM_PROCESS',
       ...action.payload,
     }),
     previousQuestion: (
@@ -129,9 +129,9 @@ export const examSlice = createSlice({
         };
       }
     ) => {
-      if (state.type === 'QUESTION') {
+      if (state.type === 'EXAM_PROCESS') {
         return {
-          type: 'QUESTION',
+          type: 'EXAM_PROCESS',
           ...action.payload,
           exam: state.exam,
         };
@@ -146,14 +146,14 @@ export const examSlice = createSlice({
         };
       }
     ) => {
-      if (state.type === 'QUESTION') {
+      if (state.type === 'EXAM_PROCESS') {
         const answers_ = [...state.answers];
         answers_.push({
           id: state.counter,
           answer: action.payload.currentAnswer,
         });
         return {
-          type: 'QUESTION',
+          type: 'EXAM_PROCESS',
           counter: state.counter + 1,
           answers: answers_,
           answer: action.payload.currentAnswer,
@@ -170,7 +170,7 @@ export const examSlice = createSlice({
         };
       }
     ) => {
-      if (state.type === 'QUESTION') {
+      if (state.type === 'EXAM_PROCESS') {
         return {
           ...state,
           counter: state.counter + 1,
@@ -191,7 +191,7 @@ export const examSlice = createSlice({
         };
       }
     ) => {
-      if (state.type === 'QUESTION') {
+      if (state.type === 'EXAM_PROCESS') {
         return {
           ...state,
           counter: action.payload.counter,

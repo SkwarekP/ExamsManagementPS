@@ -14,7 +14,7 @@ interface Props {
 
 export const ExamTracking = ({ exam, onShowTooltip }: Props) => {
   const state = useSelector(
-    (state: RootState) => state.exam.type === 'QUESTION' && state.exam
+    (state: RootState) => state.exam.type === 'EXAM_PROCESS' && state.exam
   );
   const [isPaginationNeeded, setIsPaginationNeeded] = useState(false);
   const [nextQuestions, setNextQuestions] = useState(false);

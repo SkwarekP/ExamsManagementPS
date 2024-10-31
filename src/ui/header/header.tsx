@@ -37,7 +37,7 @@ export const Header = ({ children }: IChildrenProps) => {
     if (state.type === 'LOADING') return;
 
     if (
-      state.type === 'QUESTION' ||
+      state.type === 'EXAM_PROCESS' ||
       state.type === 'SUMMARY' ||
       state.type === 'FINISH_EXAM'
     )
@@ -63,7 +63,7 @@ export const Header = ({ children }: IChildrenProps) => {
             onClick={(event) => handleNavigate(event, '/manageExams')}
             to="manageExams"
           >
-            Manage Exams
+            Manage
           </NavLink>
         </div>
         <div className={classes.menu__item}>
