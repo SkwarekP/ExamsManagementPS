@@ -27,7 +27,7 @@ export interface IExam {
   answersAmount: number;
   name: string;
   category: string;
-  status: ExamStatus;
+  status?: ExamStatus;
   questions: QuestionsCorrect[];
 }
 export interface IQuestions {

@@ -1,0 +1,27 @@
+.container {
+    display:flex;
+    width:100%;
+    overflow: hidden;
+
+    .content {
+        width:100%;
+    }
+}
+.sidebar__wrapper {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 15px;
+    height: calc(100vh - 60px);
+
+    .sidebar__item__wrapper {
+        text-align: center;
+        padding-top:1rem;
+        margin-top:1rem;
+    }
+
+    .sidebar__item {
+        font-size:18px;
+        font-weight: 700;   
+        cursor:pointer;
+    }
+}

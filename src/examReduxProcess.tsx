@@ -15,6 +15,8 @@ import { executionActions } from './redux/slices/executionSlice';
 import { CreateExecution, Execution, Execution_Status, IExam } from './types';
 import { SNACKBAR_CONSTANTS } from './constants/snackbar-messages';
 import { useSnackbar } from './hooks/useSnackbar';
+import { MOCK_EXAMS } from './mocks/exam';
+import { MOCK_USER } from './mocks/user.utils';
 
 export const ExamReduxProcess = () => {
   const state = useSelector((state: RootState) => state.exam);
@@ -47,7 +49,6 @@ export const ExamReduxProcess = () => {
     }
 
   }, [isExamsFetchError, snackbar])
-  // dispatch(executionActions.setExecutionId({executionId: }))
   const startExamHandler = (exam: IExam) => {
     if (user && isExamsFetchedSuccessfully) {
       const executionObject: CreateExecution = {
@@ -72,7 +73,8 @@ export const ExamReduxProcess = () => {
             content: SNACKBAR_CONSTANTS.FETCH_EXAMS_FAILED_SUBTITLE
           })
         })
-    } else {
+    } 
+    else {
       snackbar.show({
         severity: 'error',
         title: SNACKBAR_CONSTANTS.FETCH_CURRENT_USER
@@ -91,7 +93,8 @@ export const ExamReduxProcess = () => {
       </div>}
       <div className={classes.examList}>
         {(isExamsLoading || isUserLoading) && <Loader />}
-        {filteredExams?.map((exam) => (
+        {/* filteredExams.map */}
+        {MOCK_EXAMS?.map((exam) => (
           <div key={exam.examId} className={classes.examCard}>
             <h3>{exam.name}</h3>
             <p className={classes.examDescription}>some description of this exam</p>
