@@ -9,6 +9,7 @@ import { Snackbar } from './ui/snackbar/snackbar';
 import { createPortal } from 'react-dom';
 import { Exam } from './components/exam/exam';
 import { useFetchExamQuery } from './redux/queries/ExamQueries';
+import { Container } from './ui/container/container';
 
 function App() {
   const state = useSelector((state: RootState) => state)
@@ -17,17 +18,17 @@ function App() {
     {
       path: '/',
       element: (
-        <Header>
+        <Container>
           <ExamReduxProcess />
-        </Header>
+        </Container>
       ),
     },
     {
       path: 'manageExams',
       element: (
-        <Header>
+        <Container>
           <ManageExamsPage />
-        </Header>
+        </Container>
       ),
     },
     // {

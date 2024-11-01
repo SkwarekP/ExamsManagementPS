@@ -21,18 +21,18 @@ div {
     text-align: center;
     padding: 20px;
     background-color: #f9f9f9;
-    border-radius: 10px;
+    width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     .introduction {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 400;
       margin-bottom: 1em;
       color: #333;
     }
     
     .tips {
-      font-size: 0.9rem;
+      font-size: 16px;
       color: #666;
       font-style: italic;
       margin-top: 10px;

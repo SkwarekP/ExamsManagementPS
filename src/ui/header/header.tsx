@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-const activeLinkColor = (isActive: boolean) => {
+export const activeLinkColor = (isActive: boolean) => {
   return { color: isActive ? 'gray' : 'inherit' };
 };
 
